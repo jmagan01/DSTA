@@ -1,0 +1,737 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\AtBeginDocument{\renewcommand{\lstlistingname}{Python script}}
+\usepackage{xcolor}
+\end_preamble
+\use_default_options false
+\begin_modules
+logicalmkup
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "palatino" "default"
+\font_sans "helvet" "default"
+\font_typewriter "beramono" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 95 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 0
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 0
+\use_package mhchem 1
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\rightmargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+\noindent
+Data Science Techniques and Applications - Coursework II
+\begin_inset Newline newline
+\end_inset
+
+Dimensionality Reduction
+\end_layout
+
+\begin_layout Author
+\noindent
+Jose Manuel Magaña Arias
+\begin_inset Newline newline
+\end_inset
+
+March 25, 2019
+\end_layout
+
+\begin_layout Author
+\noindent
+MSc Data Science
+\begin_inset Newline newline
+\end_inset
+
+Birkbeck College, Univeristy of London
+\end_layout
+
+\begin_layout Abstract
+\noindent
+In this short paper I present the second part of the coursework from the
+ Data Science Techniques and Applications (DSTA) module.
+ This work focuses on the dimentionality reduction problem for the 
+\emph on
+Kaggle 
+\emph default
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1"
+
+\end_inset
+
+ dataset 
+\series bold
+’Walmart Recruiting - Store Sales Forecasting’
+\series default
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting
+\end_layout
+
+\end_inset
+
+.
+ This report is organised in four parts.
+ In the first part I discuss the distribution of three dimensions of interest
+ and present their values using appropriate 
+\family typewriter
+matplotlib
+\family default
+ plots.
+ In the second part, I discuss the Principal Component Analys (PCA) technique
+ as a solution to the dimentionality reduction problem and present the results
+ of the PCA applied to the three-dimensional dataset from part I.
+ In the third part I present the results and conclusions of this analysis.
+ Part four is a technical annex that includes the Python program developed
+ for this coursework.
+ This work is a continuation of the first part of the coursework for the
+ DSTA module 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "2"
+
+\end_inset
+
+.
+ I employ Python 3 for all the scripts.
+\end_layout
+
+\begin_layout Part
+\noindent
+Analysis of the distribution of the data
+\end_layout
+
+\begin_layout Standard
+\noindent
+The analysis presented in this document is for data at the store lelvel.
+ There are 45 stores is this dataset.
+ The information in the original dataset is presented at a granular level
+ by store, department and week.
+ In order to perform this analysis the data has been aggregated by store.
+ Three variables have been considered for this purpose: 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+
+\family typewriter
+sales 
+\family default
+- in US$
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+\noindent
+size
+\end_layout
+
+\end_inset
+
+ of the store
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+\noindent
+markdown5
+\end_layout
+
+\end_inset
+
+ activities (discounts in US$)
+\end_layout
+
+\begin_layout Standard
+\noindent
+In this dataset, 
+\family typewriter
+sales
+\family default
+ is an important dimension to predict while 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+\noindent
+size
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+\noindent
+markdown5
+\end_layout
+
+\end_inset
+
+ are candidate predictors.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+These three variables are in the domain of the dataset but in different
+ .csv files, so a script to merge (join) the information in one single pandas
+ dataframe has been coded.
+ The data has been normalised in order to perform a comparative analysis
+ of its distribution as shown in Figure 1.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/910589/Desktop/DSTA/coursework/histograms.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Figure 1: comparative histograms of the distribution of the selected variables
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to understand the relationship between those variables, I project
+ the values of 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+\noindent
+sales
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+\noindent
+size
+\end_layout
+
+\end_inset
+
+ variables in the scatterplot shown in Figure 2.
+ Notice that each observation in the scatterplot corresponds to a Walmart
+ store, the classification of each store is an extra dimension represented
+ by the colour of the dots.
+ This information is provided by the categorical variable 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+type
+\end_layout
+
+\end_inset
+
+.
+ There are 3 different types of store, as the reader can see below each
+ type is indicated by the grey, orange and red colours, which can be mapped
+ to 
+\emph on
+small
+\emph default
+, 
+\emph on
+medium
+\emph default
+ and 
+\emph on
+big
+\emph default
+ stores correspondingly.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The distribution of the data suggests a positive correlation and a linear
+ relationship between the size of the store and the amount of sales.
+ There are two interesting annomalies in the data, those are observations
+ in shown in red in the bottom-left corner of the plot, those observations
+ belong to the group of 'big' stores, however their size and sales values
+ suggest a performance typical of the 'small' stores in grey.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/910589/Desktop/DSTA/coursework/scatter_sales_vs_size.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Figure 2: scatterplot of the sales and size variables.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 3 presents the same analysis as per Figure 2 but for the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+\noindent
+sales
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+\noindent
+markdown5
+\end_layout
+
+\end_inset
+
+ variables.
+ 
+\begin_inset Newline newline
+\end_inset
+
+Again, the data suggests a linear and positive relationship between the
+ amount of sales and the discount activities (markdown) across all the stores.
+ There are two outliers in the chart which belong to a couple of stores
+ that have very high markdown values not necessarily translated into very
+ high sales.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/910589/Desktop/DSTA/coursework/scatter_sales_vs_total_markdown.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Figure 3: scatterplot of the sales and markdown variables.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, in order to gain a better understanding of interaction of the selected
+ dimensions I plot the three of them in a 3D chart.
+ This is shown in Figure 4 below.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/910589/Desktop/DSTA/coursework/3D selected dimensions.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Figure 4: 3D plot of the selected variables.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+\noindent
+Principal Components Analysis
+\end_layout
+
+\begin_layout Standard
+\noindent
+Principal components analysis provides a mean to obtain a low-dimensional
+ representation of a high-dimensional dataset preserving much as possible
+ of the variation of the data.
+ Having a set of features 
+\begin_inset Formula $\{X_{1},X_{2},...,X_{p}\}$
+\end_inset
+
+ each dimension computed by PCA will be a linear combination of the 
+\emph on
+p 
+\emph default
+features
+\emph on
+.
+ 
+\emph default
+The linear combination 
+\begin_inset Formula $Z_{1}$
+\end_inset
+
+is known as the 
+\emph on
+first principal component 
+\emph default
+defined as 
+\begin_inset Formula 
+\begin{equation}
+Z_{1}=\phi_{11}X_{1}+\phi_{21}X_{2}+\ldots+\phi_{p1}X_{p}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where elements 
+\begin_inset Formula $\phi_{11},\phi_{21},\ldots,\phi_{p1}$
+\end_inset
+
+represent the 
+\emph on
+loadings
+\emph default
+ of the first principal component and can be summarised in a loading vector
+\begin_inset Formula $\phi_{1}=[\phi_{11},\phi_{21},\ldots,\phi_{p1}]$
+\end_inset
+
+.
+ The 
+\emph on
+second pricipal component
+\emph default
+ is just a linear combination of the 
+\emph on
+p 
+\emph default
+features where the loading vector 
+\begin_inset Formula $\phi_{2}=[\phi_{12},\phi_{22},\ldots,\phi_{p2}]$
+\end_inset
+
+ is constrained to be orthogonal to 
+\begin_inset Formula $\phi_{1}$
+\end_inset
+
+.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+James et al.
+ (2014)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "JamesEtal:2014"
+
+\end_inset
+
+ provide an alternative interpretation for principal component analysis
+ as a tool that 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+provides low-dimensional linear surfaces that are closest to the observations
+\emph default
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Figure 5 below is a 3D representation of the PCA performed on the 3-dimensional
+ reduced dataset.
+ The data is plotted against the first 3 eigenvectors computed by PCA.
+ An 
+\emph on
+eigenvector
+\emph default
+ is a unit-scaled loading vector.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/910589/Desktop/DSTA/coursework/3D PCA.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Figure 5: 3D plot of the selected variables.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+\noindent
+Results and conclusions
+\end_layout
+
+\begin_layout Standard
+Part I of this analysis demostrated a linear relationship between the variable
+ of interest 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+sales
+\end_layout
+
+\end_inset
+
+ and two predictors: 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+size
+\end_layout
+
+\end_inset
+
+ of the store and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+markdown
+\end_layout
+
+\end_inset
+
+ activities.
+ The scatterplots suggest a positive correlation between de 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+sales
+\end_layout
+
+\end_inset
+
+and each of the predictors.
+ This relationship is also clear in the 3D plot provided in Figure 4.
+ This positive correlation is clear for the medium and big size stores,
+ being less clear for small stores.
+ There are two stores which belong to the group of 'big' stores which features
+ describe a beheaviour similar to the group of 'small' stores.
+ Those two observations are shown as clear classification anomalies in Figure
+ 2.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+PCA is a powerful tool to understand high-dimensional datasets through few
+ dimensions called eigenvectors which capture most of the variability of
+ the data.
+ Figure 5 shows clear evidence that the stores in the Walmart dataset can
+ be correctly classified by using the first three PCA dimensions.
+ This is demostrated by the clear clusters with no overlapping in the 3D
+ chart.
+\end_layout
+
+\begin_layout Part
+\noindent
+Technical Annex
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "C:/Users/910589/Desktop/DSTA/coursework/code/main.py"
+lstparams "language=Python,keywordstyle={\\color{orange}},commentstyle={\\color{teal}\\itshape},stringstyle={\\color{black}},identifierstyle={\\color{blue}},emphstyle={\\color{red}},breaklines=true,captionpos=tb,frame=tb,showstringspaces=false,caption={Phase III - Plotting results}"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "book"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
